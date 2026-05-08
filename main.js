@@ -145,6 +145,7 @@ const elements = {
   meterStatus: document.getElementById('meter-status'),
   navGame: document.getElementById('nav-game'),
   navAcademy: document.getElementById('nav-academy'),
+  navLanding: document.getElementById('nav-landing'),
   gameView: document.querySelector('main'),
   academyView: document.getElementById('academy-view'),
   landingView: document.getElementById('landing-view'),
@@ -317,6 +318,9 @@ function switchView(view) {
 
   if (view === 'landing') {
     elements.landingView.style.display = 'grid';
+    elements.navLanding?.classList.add('active');
+    elements.navAcademy.classList.remove('active');
+    elements.navGame.classList.remove('active');
   } else if (view === 'academy') {
     elements.mainHeader.style.display = 'flex';
     elements.academyView.style.display = 'block';
@@ -375,6 +379,7 @@ elements.btnTrust.addEventListener('click', () => handleDecision(false));
 elements.btnNext.addEventListener('click', nextScenario);
 elements.navGame.addEventListener('click', () => switchView('game'));
 elements.navAcademy.addEventListener('click', () => switchView('academy'));
+elements.navLanding.addEventListener('click', () => switchView('landing'));
 elements.btnEnterRoom.addEventListener('click', () => switchView('academy'));
 elements.btnUnderstood.addEventListener('click', handleNextTeaching);
 elements.btnStartChallenge.addEventListener('click', () => switchView('game'));
