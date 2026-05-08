@@ -73,6 +73,20 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+}
+
+.logo:hover {
+  animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 
 .logo span {
@@ -131,6 +145,17 @@ header {
   font-size: 1.25rem;
 }
 
+.critical-threat {
+  animation: pulse-red 1s infinite;
+  color: var(--danger) !important;
+}
+
+@keyframes pulse-red {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
 /* Main Content Area */
 main {
   flex: 1;
@@ -154,6 +179,34 @@ main {
   flex-direction: column;
   gap: 1.5rem;
 }
+
+.scenario-meta {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.platform-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.difficulty-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.difficulty-tag.easy { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+.difficulty-tag.medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.difficulty-tag.hard { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
 .sidebar {
   display: flex;
@@ -201,6 +254,39 @@ main {
   line-height: 1.6;
   font-size: 1.1rem;
   min-height: 200px;
+}
+
+/* SMS Styling */
+.sms-bubble {
+  background: #2563eb;
+  color: white;
+  padding: 1rem;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  max-width: 80%;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
+/* Link Status Bar */
+.status-bar {
+  margin-top: auto;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border: 1px solid var(--glass-border);
+}
+
+.status-bar span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Action Buttons */

@@ -4,9 +4,12 @@ PhishMaster is a premium, gamified web application designed to teach phishing sa
 
 ## 🚀 Features
 - **Interactive Inbox**: Triage incoming messages and spot phishing attempts.
+- **Multi-Channel Attacks**: Encounter phishing in emails, SMS (Smishing), and social media platforms.
+- **Link Inspection**: Hover over links to see real destination URLs in a simulated browser status bar.
+- **Difficulty Levels**: Dynamic scaling from Easy to Hard scenarios.
 - **Phishing Academy**: A comprehensive learning hub for cyber security.
 - **Gamified Progression**: Earn points, level up, and unlock badges.
-- **Premium Design**: Sleek dark mode with glassmorphism and modern animations.
+- **Advanced UI/UX**: Glitch effects, critical threat warnings, and premium glassmorphism.
 
 ## 🛠️ Tech Stack
 - Vite

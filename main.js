@@ -4,90 +4,83 @@ import './style.css';
 const scenarios = [
   {
     id: 1,
+    platform: 'email',
+    difficulty: 'easy',
     subject: "Urgent: Unusual Login Activity Detected",
     sender: "Nexus IT Support <support@nexus-security-alert.net>",
     body: `
       <p>Hello Employee,</p>
       <p>We detected an unusual login to your Nexus account from an unrecognized device in Eastern Europe.</p>
-      <p>If this was not you, please click the button below to secure your account immediately. Failure to do so within 24 hours will result in permanent account suspension.</p>
+      <p>If this was not you, please click the button below to secure your account immediately.</p>
       <div style="margin: 20px 0; text-align: center;">
-        <a href="#" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">Verify My Identity</a>
+        <a href="#" class="simulated-link" data-url="http://nexus-verify-identity.com/login" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">Verify My Identity</a>
       </div>
       <p>Thank you,<br>Nexus Security Team</p>
     `,
     isPhishing: true,
-    explanation: "This was a classic credential harvesting attack. The urgency and threat of suspension are common tactics.",
-    redFlags: [
-      "The sender domain '@nexus-security-alert.net' is not the official '@nexus-corp.com'.",
-      "Urgent language designed to make you act without thinking ('Failure to do so within 24 hours').",
-      "Generic greeting ('Hello Employee') instead of your name."
-    ]
+    explanation: "This was a classic credential harvesting attack. The domain '@nexus-security-alert.net' is a common lookalike tactic.",
+    redFlags: ["Mismatched domain", "Urgent tone", "Generic greeting"]
   },
   {
     id: 2,
-    subject: "Benefits Enrollment Reminder - Action Required",
-    sender: "Human Resources <hr@nexus-corp.com>",
+    platform: 'sms',
+    difficulty: 'medium',
+    subject: "SMS from [NexusHR]",
+    sender: "+1 (888) 555-0199",
     body: `
-      <p>Hi Team,</p>
-      <p>Friendly reminder that the open enrollment period for our 2026 benefits package ends this Friday.</p>
-      <p>Please log in to the Nexus Employee Portal (https://portal.nexus-corp.com) to review and confirm your selections. If you've already completed this, you can ignore this message.</p>
-      <p>Regards,<br>Sarah Miller<br>Director of HR</p>
+      <div class="sms-bubble">
+        [NEXUS-CORP] Your one-time verification code is 88291. If you did not request this, please secure your account at: https://nexus-corp.auth-secure.com
+      </div>
     `,
-    isPhishing: false,
-    explanation: "This is a legitimate internal communication. It uses the correct domain and directs you to a known internal portal.",
-    redFlags: []
+    isPhishing: true,
+    explanation: "Smishing often uses verification code lures. The URL 'nexus-corp.auth-secure.com' is a subdomain on a malicious domain 'auth-secure.com'.",
+    redFlags: ["Suspicious URL structure", "Unsolicited 2FA code"]
   },
   {
     id: 3,
-    subject: "Overdue Invoice #INV-88219",
-    sender: "Billing Dept <no-reply@amazon-payments-verify.com>",
+    platform: 'social',
+    difficulty: 'hard',
+    subject: "LinkedIn Message: Recruiter Contact",
+    sender: "Sarah Jenkins (Senior Talent Lead)",
     body: `
-      <p>Dear Valued Customer,</p>
-      <p>Your payment for order #INV-88219 is overdue. Please find the attached PDF invoice for details.</p>
-      <p>To avoid late fees, please pay immediately using our secure portal linked in the attachment.</p>
-      <p>Best Regards,<br>Global Finance Team</p>
+      <p>Hi there! I saw your profile and I'm very impressed with your work at Nexus Corp.</p>
+      <p>We're looking for someone with your exact skillset for a confidential project at a major competitor. The salary range is significantly higher than market average.</p>
+      <p>You can view the full job description and benefits package here: <a href="#" class="simulated-link" data-url="https://dropbox-shared-files.net/s/job_desc_2026.zip">job_description_nexus_hire.zip</a></p>
     `,
     isPhishing: true,
-    explanation: "This is a fake invoice scam. These are often used to spread malware via attachments or steal payment info.",
-    redFlags: [
-      "The sender uses a lookalike domain ('amazon-payments-verify.com').",
-      "Generic greeting and lack of specific order details in the body.",
-      "The call to action relies on opening an attachment from an unexpected sender."
-    ]
+    explanation: "This is spear phishing targeting professional curiosity. The '.zip' file on a lookalike 'dropbox-shared-files.net' domain likely contains malware.",
+    redFlags: ["Unsolicited high-value offer", "Suspicious file attachment (.zip)", "Lookalike file sharing domain"]
   },
   {
     id: 4,
-    subject: "New Shared Document: 'Q3 Financial Goals.xlsx'",
-    sender: "John Davis (via Google Docs) <share-noreply@google.com>",
+    platform: 'email',
+    difficulty: 'medium',
+    subject: "IT Security Policy Update - Required Signature",
+    sender: "Global Compliance <compliance@nexus-corp.com>",
     body: `
-      <p>John Davis (john.davis@nexus-corp.com) has invited you to edit the following document:</p>
-      <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4285f4;">
-        <strong>Q3 Financial Goals.xlsx</strong>
-      </div>
-      <p><a href="#" style="color: #4285f4;">Open in Docs</a></p>
-      <p>Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</p>
+      <p>Dear Employee,</p>
+      <p>As part of our annual security audit, all employees are required to review and sign the updated Remote Work Policy by end of week.</p>
+      <p>Please review the document on the internal SharePoint: <a href="#" class="simulated-link" data-url="https://nexuscorp.sharepoint.com/sites/compliance/policy2026">Nexus Policy 2026</a></p>
+      <p>Thank you for your cooperation.</p>
     `,
     isPhishing: false,
-    explanation: "This is a standard Google Docs notification. The sender 'share-noreply@google.com' is legitimate, and the inviter is a known colleague.",
+    explanation: "This is a legitimate internal communication. It uses the correct internal SharePoint domain and official sender address.",
     redFlags: []
   },
   {
     id: 5,
-    subject: "RE: Your Starbucks Gift Card",
-    sender: "Employee Rewards <rewards@nxus-corp.com>",
+    platform: 'email',
+    difficulty: 'hard',
+    subject: "Fwd: Q4 Budget Review - Action Needed",
+    sender: "David Chen <david.chen@nexus-corp.com>",
     body: `
-      <p>Hey there!</p>
-      <p>As a thank you for your hard work this quarter, Nexus Corp is giving everyone a $50 Starbucks gift card.</p>
-      <p>Claim yours here: <a href="#">http://nxus-rewards.com/claim/5592</a></p>
-      <p>Enjoy your coffee!</p>
+      <p>Hey, I'm stuck in a meeting but I need you to double check these numbers for the Q4 review before the board meeting at 3 PM.</p>
+      <p>The spreadsheet is here: <a href="#" class="simulated-link" data-url="https://docs.google.com/spreadsheets/d/1vA.../edit">Q4_Budget_Draft_v2</a></p>
+      <p>Thanks!</p>
     `,
-    isPhishing: true,
-    explanation: "This is a corporate 'lure' phishing attempt, often used to test employee vigilance.",
-    redFlags: [
-      "The sender domain has a typo: '@nxus-corp.com' instead of '@nexus-corp.com'.",
-      "The claim link leads to an external, unofficial domain.",
-      "Gift card offers are common phishing bait."
-    ]
+    isPhishing: false,
+    explanation: "This is a legitimate 'high-pressure' scenario from a known colleague. The link leads to an official Google Docs domain commonly used in the company.",
+    redFlags: []
   }
 ];
 
@@ -123,7 +116,10 @@ const elements = {
   navGame: document.getElementById('nav-game'),
   navAcademy: document.getElementById('nav-academy'),
   gameView: document.querySelector('main'),
-  academyView: document.getElementById('academy-view')
+  academyView: document.getElementById('academy-view'),
+  platformTag: document.getElementById('platform-tag'),
+  difficultyTag: document.getElementById('difficulty-tag'),
+  statusUrl: document.getElementById('status-url')
 };
 
 // Functions
@@ -142,11 +138,25 @@ function updateUI() {
   elements.score.textContent = state.score;
   elements.lives.textContent = '❤'.repeat(Math.max(0, state.lives));
   
+  if (state.lives === 1) {
+    elements.lives.classList.add('critical-threat');
+  } else {
+    elements.lives.classList.remove('critical-threat');
+  }
+  
+  // Advanced Meta
+  elements.platformTag.textContent = scenario.platform;
+  elements.difficultyTag.textContent = scenario.difficulty;
+  elements.difficultyTag.className = `difficulty-tag ${scenario.difficulty}`;
+  
   // Animation reset
   const scenarioContainer = document.getElementById('scenario-container');
   scenarioContainer.classList.remove('animate-fade');
   void scenarioContainer.offsetWidth; // trigger reflow
   scenarioContainer.classList.add('animate-fade');
+
+  // Link Hover Logic
+  setupLinkInspection();
 
   // Level progression
   if (state.score >= 3 && !state.badges.includes('PERFECT_START') && state.lives === 3) {
@@ -163,6 +173,22 @@ function updateUI() {
 
   updatePhishOMeter();
   updateBadgesUI();
+}
+
+function setupLinkInspection() {
+  const links = elements.body.querySelectorAll('.simulated-link');
+  elements.statusUrl.textContent = 'Hover over a link to inspect URL...';
+  
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      elements.statusUrl.textContent = link.dataset.url;
+      elements.statusUrl.style.color = 'var(--accent)';
+    });
+    link.addEventListener('mouseleave', () => {
+      elements.statusUrl.textContent = 'Hover over a link to inspect URL...';
+      elements.statusUrl.style.color = 'var(--text-muted)';
+    });
+  });
 }
 
 function updatePhishOMeter() {
