@@ -512,3 +512,41 @@ elements.btnStartChallenge.addEventListener('click', () => switchView('game'));
 // Initialize
 switchView('landing');
 updateUI();
+
+// Landing Log Animation
+function animateLandingLogs() {
+  const logContainer = document.getElementById("landing-logs");
+  if (!logContainer) return;
+
+  const logLines = [
+    "> [INFO] Initializing defense sub-routines...",
+    "> [INFO] Global threat map synchronized.",
+    "> [WARN] Unauthorized access attempt from IP 45.2.11.90 blocked.",
+    "> [INFO] Training modules loaded successfully.",
+    "> [INFO] Monitoring live traffic for phishing signatures...",
+    "> [ALERT] Critical breach simulated in Sector 7."
+  ];
+
+  let currentLine = 0;
+  setInterval(() => {
+    const p = document.createElement("p");
+    p.textContent = logLines[currentLine];
+    if (logLines[currentLine].includes("ALERT") || logLines[currentLine].includes("WARN")) {
+      p.className = "danger";
+    }
+    logContainer.appendChild(p);
+    logContainer.scrollTop = logContainer.scrollHeight;
+    
+    if (logContainer.children.length > 5) {
+      logContainer.removeChild(logContainer.firstChild);
+    }
+    
+    currentLine = (currentLine + 1) % logLines.length;
+  }, 3000);
+}
+
+// Start landing logs animation if on landing page
+if (document.getElementById("landing-logs")) {
+  animateLandingLogs();
+}
+
