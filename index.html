@@ -15,8 +15,11 @@
         </div>
         
         <nav class="main-nav">
-          <button class="nav-btn active" id="nav-game">The Challenge</button>
-          <button class="nav-btn" id="nav-academy">Academy</button>
+          <button class="nav-btn active" id="nav-academy">Academy</button>
+          <button class="nav-btn disabled" id="nav-game" title="Complete the Academy to unlock the Challenge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            The Challenge
+          </button>
         </nav>
 
         <div class="stats-bar">
@@ -37,7 +40,7 @@
 
       <main>
         <section class="game-area">
-          <div class="glass card inbox-view animate-fade" id="scenario-container">
+          <div class="glass card inbox-view animate-fade" id="scenario-container" style="display: none;">
             <div class="scenario-meta">
               <span class="platform-tag" id="platform-tag">Email</span>
               <span class="difficulty-tag" id="difficulty-tag">Easy</span>
@@ -105,23 +108,28 @@
         </aside>
       </main>
 
-      <section id="academy-view" style="display: none; padding: 2rem; max-width: 1200px; margin: 0 auto; width: 100%;">
+      <section id="academy-view" style="padding: 2rem; max-width: 1200px; margin: 0 auto; width: 100%;">
         <div class="academy-header">
           <h1>Phishing Academy</h1>
-          <p>Master the knowledge to stay secure in the digital age.</p>
+          <p>Complete all modules to unlock the Cyber Defense Challenge.</p>
+          <div class="academy-progress-container">
+            <div class="academy-progress-bar" id="academy-progress"></div>
+          </div>
+          <span id="academy-status">0 / 4 Modules Completed</span>
         </div>
         
         <div class="academy-grid">
           <!-- Basics -->
-          <div class="glass card">
+          <div class="glass card academy-module" data-module="basics">
             <div class="category-tag">Basics</div>
             <h3>What is Phishing?</h3>
             <p>Phishing is a type of cyber attack where attackers pose as legitimate organizations to trick individuals into revealing sensitive information like passwords, credit card numbers, or social security details.</p>
             <div class="learning-tip">💡 90% of all data breaches start with a phishing email.</div>
+            <button class="btn-complete" data-module="basics">Mark as Completed</button>
           </div>
 
           <!-- Types -->
-          <div class="glass card">
+          <div class="glass card academy-module" data-module="types">
             <div class="category-tag">Types</div>
             <h3>The Phishing Spectrum</h3>
             <ul class="learning-list">
@@ -130,10 +138,11 @@
               <li><strong>Vishing:</strong> Voice phishing using phone calls or AI clones.</li>
               <li><strong>Whaling:</strong> Targeting high-level executives (CEOs, CFOs).</li>
             </ul>
+            <button class="btn-complete" data-module="types">Mark as Completed</button>
           </div>
 
           <!-- Red Flags -->
-          <div class="glass card">
+          <div class="glass card academy-module" data-module="redflags">
             <div class="category-tag">Detection</div>
             <h3>Major Red Flags</h3>
             <ul class="learning-list">
@@ -142,10 +151,11 @@
               <li>🚩 <strong>Unexpected Attachments:</strong> Invoices or documents you didn't ask for.</li>
               <li>🚩 <strong>Generic Greeting:</strong> Addressing you as "Dear Member" instead of your name.</li>
             </ul>
+            <button class="btn-complete" data-module="redflags">Mark as Completed</button>
           </div>
 
           <!-- Prevention -->
-          <div class="glass card">
+          <div class="glass card academy-module" data-module="prevention">
             <div class="category-tag">Prevention</div>
             <h3>How to Protect Yourself</h3>
             <ul class="learning-list">
@@ -154,6 +164,7 @@
               <li>✅ <strong>Hover Before You Click:</strong> Check where a link actually leads.</li>
               <li>✅ <strong>Use a Password Manager:</strong> Helps prevent entering credentials into fake sites.</li>
             </ul>
+            <button class="btn-complete" data-module="prevention">Mark as Completed</button>
           </div>
         </div>
 

@@ -90,7 +90,9 @@ let state = {
   score: 0,
   lives: 3,
   level: 1,
-  badges: []
+  badges: [],
+  completedModules: [],
+  gameUnlocked: false
 };
 
 // DOM Elements
@@ -119,7 +121,11 @@ const elements = {
   academyView: document.getElementById('academy-view'),
   platformTag: document.getElementById('platform-tag'),
   difficultyTag: document.getElementById('difficulty-tag'),
-  statusUrl: document.getElementById('status-url')
+  statusUrl: document.getElementById('status-url'),
+  academyProgress: document.getElementById('academy-progress'),
+  academyStatus: document.getElementById('academy-status'),
+  moduleButtons: document.querySelectorAll('.btn-complete'),
+  scenarioContainer: document.getElementById('scenario-container')
 };
 
 // Functions
@@ -271,7 +277,12 @@ function nextScenario() {
 
 function switchView(view) {
   if (view === 'game') {
+    if (!state.gameUnlocked) {
+      alert("⚠️ Access Denied: You must complete all Academy modules to unlock the Challenge!");
+      return;
+    }
     elements.gameView.style.display = 'grid';
+    elements.scenarioContainer.style.display = 'flex';
     elements.academyView.style.display = 'none';
     elements.navGame.classList.add('active');
     elements.navAcademy.classList.remove('active');
@@ -283,12 +294,54 @@ function switchView(view) {
   }
 }
 
+function handleModuleComplete(e) {
+  const btn = e.target;
+  const moduleName = btn.dataset.module;
+  const moduleCard = btn.closest('.academy-module');
+
+  if (!state.completedModules.includes(moduleName)) {
+    state.completedModules.push(moduleName);
+    btn.textContent = 'Completed ✓';
+    btn.classList.add('completed');
+    moduleCard.classList.add('completed');
+  } else {
+    state.completedModules = state.completedModules.filter(m => m !== moduleName);
+    btn.textContent = 'Mark as Completed';
+    btn.classList.remove('completed');
+    moduleCard.classList.remove('completed');
+  }
+
+  updateAcademyProgress();
+}
+
+function updateAcademyProgress() {
+  const total = 4;
+  const current = state.completedModules.length;
+  const percentage = (current / total) * 100;
+
+  elements.academyProgress.style.width = `${percentage}%`;
+  elements.academyStatus.textContent = `${current} / ${total} Modules Completed`;
+
+  if (current === total) {
+    state.gameUnlocked = true;
+    elements.navGame.classList.remove('disabled');
+    elements.navGame.title = 'Challenge Unlocked!';
+    elements.academyStatus.innerHTML = '<span style="color: var(--success); font-weight: bold;">✓ Academy Completed! Challenge Unlocked.</span>';
+  } else {
+    state.gameUnlocked = false;
+    elements.navGame.classList.add('disabled');
+    elements.navGame.title = 'Complete the Academy to unlock the Challenge';
+  }
+}
+
 // Event Listeners
 elements.btnReport.addEventListener('click', () => handleDecision(true));
 elements.btnTrust.addEventListener('click', () => handleDecision(false));
 elements.btnNext.addEventListener('click', nextScenario);
 elements.navGame.addEventListener('click', () => switchView('game'));
 elements.navAcademy.addEventListener('click', () => switchView('academy'));
+elements.moduleButtons.forEach(btn => btn.addEventListener('click', handleModuleComplete));
 
 // Initialize
 updateUI();
+updateAcademyProgress();

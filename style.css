@@ -122,7 +122,13 @@ header {
   color: white;
 }
 
-.nav-btn:hover:not(.active) {
+.nav-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.nav-btn:hover:not(.active):not(.disabled) {
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-main);
 }
@@ -422,6 +428,27 @@ button {
   -webkit-text-fill-color: transparent;
 }
 
+.academy-progress-container {
+  max-width: 400px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin: 1.5rem auto 0.5rem;
+  overflow: hidden;
+}
+
+.academy-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
+
+#academy-status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 .academy-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -469,6 +496,29 @@ button {
   border-left: 4px solid var(--accent);
   border-radius: 4px;
   font-size: 0.9rem;
+}
+
+.btn-complete {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-complete.completed {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.academy-module.completed {
+  border-color: var(--success);
 }
 
 .resource-link {
