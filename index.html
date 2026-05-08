@@ -11,8 +11,27 @@
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
     </div>
+    
     <div id="app">
-      <header>
+      <!-- Landing Page -->
+      <section id="landing-view" class="hero-section">
+        <div class="hero-content animate-fade">
+          <div class="hero-badge">Cyber Defense Initiative v2.0</div>
+          <h1>Become a <span class="glitch-text">PhishMaster</span></h1>
+          <p>The world's digital infrastructure is under constant threat. Enter the learning room to master the art of cyber defense and protect Nexus Corp from sophisticated phishing attacks.</p>
+          <div class="hero-actions">
+            <button id="btn-enter-room" class="btn-primary-large">
+              Enter the Learning Room
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="src/assets/hero.png" alt="PhishMaster Hero" class="floating-img">
+        </div>
+      </section>
+
+      <header id="main-header" style="display: none;">
         <div class="logo">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           Phish<span>Master</span>
@@ -112,65 +131,31 @@
         </aside>
       </main>
 
-      <section id="academy-view" style="padding: 2rem; max-width: 1200px; margin: 0 auto; width: 100%;">
-        <div class="academy-header">
-          <h1>Phishing Academy</h1>
-          <p>Complete all modules to unlock the Cyber Defense Challenge.</p>
-          <div class="academy-progress-container">
+      <section id="academy-view" style="display: none; padding: 4rem 2rem; max-width: 800px; margin: 0 auto; width: 100%;">
+        <div class="learning-room-header">
+          <span class="step-indicator" id="step-indicator">Step 1 of 4</span>
+          <h2 id="learning-title">Phishing Academy</h2>
+          <div class="academy-progress-container" style="max-width: 100%;">
             <div class="academy-progress-bar" id="academy-progress"></div>
           </div>
-          <span id="academy-status">0 / 4 Modules Completed</span>
         </div>
         
-        <div class="academy-grid">
-          <!-- Basics -->
-          <div class="glass card academy-module" data-module="basics">
-            <div class="category-tag">Basics</div>
-            <h3>What is Phishing?</h3>
-            <p>Phishing is a type of cyber attack where attackers pose as legitimate organizations to trick individuals into revealing sensitive information like passwords, credit card numbers, or social security details.</p>
-            <div class="learning-tip">💡 90% of all data breaches start with a phishing email.</div>
-            <button class="btn-complete" data-module="basics">Mark as Completed</button>
-          </div>
-
-          <!-- Types -->
-          <div class="glass card academy-module" data-module="types">
-            <div class="category-tag">Types</div>
-            <h3>The Phishing Spectrum</h3>
-            <ul class="learning-list">
-              <li><strong>Spear Phishing:</strong> Targeted attacks against specific individuals or companies.</li>
-              <li><strong>Smishing:</strong> Phishing via SMS or text messages.</li>
-              <li><strong>Vishing:</strong> Voice phishing using phone calls or AI clones.</li>
-              <li><strong>Whaling:</strong> Targeting high-level executives (CEOs, CFOs).</li>
-            </ul>
-            <button class="btn-complete" data-module="types">Mark as Completed</button>
-          </div>
-
-          <!-- Red Flags -->
-          <div class="glass card academy-module" data-module="redflags">
-            <div class="category-tag">Detection</div>
-            <h3>Major Red Flags</h3>
-            <ul class="learning-list">
-              <li>🚩 <strong>Artificial Urgency:</strong> Threatening account closure or legal action.</li>
-              <li>🚩 <strong>Suspicious Domains:</strong> Lookalike URLs (e.g., paypa1.com).</li>
-              <li>🚩 <strong>Unexpected Attachments:</strong> Invoices or documents you didn't ask for.</li>
-              <li>🚩 <strong>Generic Greeting:</strong> Addressing you as "Dear Member" instead of your name.</li>
-            </ul>
-            <button class="btn-complete" data-module="redflags">Mark as Completed</button>
-          </div>
-
-          <!-- Prevention -->
-          <div class="glass card academy-module" data-module="prevention">
-            <div class="category-tag">Prevention</div>
-            <h3>How to Protect Yourself</h3>
-            <ul class="learning-list">
-              <li>✅ <strong>Enable MFA:</strong> Always use Multi-Factor Authentication.</li>
-              <li>✅ <strong>Verify the Source:</strong> Contact the company through their official website.</li>
-              <li>✅ <strong>Hover Before You Click:</strong> Check where a link actually leads.</li>
-              <li>✅ <strong>Use a Password Manager:</strong> Helps prevent entering credentials into fake sites.</li>
-            </ul>
-            <button class="btn-complete" data-module="prevention">Mark as Completed</button>
+        <div id="learning-modules-container">
+          <!-- Modules will be shown one at a time via JS -->
+          <div class="glass card academy-module active" id="current-module-card">
+            <!-- Dynamic Module Content -->
           </div>
         </div>
+
+        <div class="learning-actions">
+          <button class="btn-primary-large" id="btn-understood" style="width: 100%; justify-content: center;">
+            I Understood, Next Teaching
+          </button>
+          <button class="btn-trust" id="btn-start-challenge" style="display: none; width: 100%; justify-content: center;">
+            Start the Cyber Defense Challenge
+          </button>
+        </div>
+      </section>
 
         <div class="academy-resources">
           <h2>External Resources</h2>

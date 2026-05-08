@@ -92,8 +92,36 @@ let state = {
   level: 1,
   badges: [],
   completedModules: [],
+  currentModuleIndex: 0,
   gameUnlocked: false
 };
+
+const academyModules = [
+  {
+    id: 'basics',
+    tag: 'Basics',
+    title: 'What is Phishing?',
+    content: '<p>Phishing is a type of cyber attack where attackers pose as legitimate organizations to trick individuals into revealing sensitive information like passwords, credit card numbers, or social security details.</p><div class="learning-tip">💡 90% of all data breaches start with a phishing email.</div>'
+  },
+  {
+    id: 'types',
+    tag: 'Types',
+    title: 'The Phishing Spectrum',
+    content: '<ul class="learning-list"><li><strong>Spear Phishing:</strong> Targeted attacks against specific individuals.</li><li><strong>Smishing:</strong> Phishing via SMS or text messages.</li><li><strong>Vishing:</strong> Voice phishing using phone calls.</li><li><strong>Whaling:</strong> Targeting high-level executives.</li></ul>'
+  },
+  {
+    id: 'redflags',
+    tag: 'Detection',
+    title: 'Major Red Flags',
+    content: '<ul class="learning-list"><li>🚩 <strong>Artificial Urgency:</strong> Threatening action.</li><li>🚩 <strong>Suspicious Domains:</strong> Lookalike URLs.</li><li>🚩 <strong>Unexpected Attachments:</strong> Unsolicited docs.</li><li>🚩 <strong>Generic Greeting:</strong> Non-personalized.</li></ul>'
+  },
+  {
+    id: 'prevention',
+    tag: 'Prevention',
+    title: 'How to Protect Yourself',
+    content: '<ul class="learning-list"><li>✅ <strong>Enable MFA:</strong> Use Multi-Factor Auth.</li><li>✅ <strong>Verify the Source:</strong> Contact via official sites.</li><li>✅ <strong>Hover Before You Click:</strong> Check real URLs.</li></ul>'
+  }
+];
 
 // DOM Elements
 const elements = {
@@ -119,12 +147,17 @@ const elements = {
   navAcademy: document.getElementById('nav-academy'),
   gameView: document.querySelector('main'),
   academyView: document.getElementById('academy-view'),
+  landingView: document.getElementById('landing-view'),
+  mainHeader: document.getElementById('main-header'),
   platformTag: document.getElementById('platform-tag'),
   difficultyTag: document.getElementById('difficulty-tag'),
   statusUrl: document.getElementById('status-url'),
   academyProgress: document.getElementById('academy-progress'),
-  academyStatus: document.getElementById('academy-status'),
-  moduleButtons: document.querySelectorAll('.btn-complete'),
+  moduleCard: document.getElementById('current-module-card'),
+  btnUnderstood: document.getElementById('btn-understood'),
+  btnStartChallenge: document.getElementById('btn-start-challenge'),
+  stepIndicator: document.getElementById('step-indicator'),
+  btnEnterRoom: document.getElementById('btn-enter-room'),
   scenarioContainer: document.getElementById('scenario-container')
 };
 
@@ -276,61 +309,63 @@ function nextScenario() {
 }
 
 function switchView(view) {
-  if (view === 'game') {
-    if (!state.gameUnlocked) {
-      alert("⚠️ Access Denied: You must complete all Academy modules to unlock the Challenge!");
-      return;
-    }
-    elements.gameView.style.display = 'grid';
-    elements.scenarioContainer.style.display = 'flex';
-    elements.academyView.style.display = 'none';
-    elements.navGame.classList.add('active');
-    elements.navAcademy.classList.remove('active');
-  } else {
-    elements.gameView.style.display = 'none';
+  // Hide all
+  elements.landingView.style.display = 'none';
+  elements.academyView.style.display = 'none';
+  elements.gameView.style.display = 'none';
+  elements.mainHeader.style.display = 'none';
+
+  if (view === 'landing') {
+    elements.landingView.style.display = 'grid';
+  } else if (view === 'academy') {
+    elements.mainHeader.style.display = 'flex';
     elements.academyView.style.display = 'block';
     elements.navGame.classList.remove('active');
     elements.navAcademy.classList.add('active');
+    updateLearningRoom();
+  } else if (view === 'game') {
+    if (!state.gameUnlocked) {
+      alert("⚠️ Access Denied: You must complete the Learning Room to unlock the Challenge!");
+      return;
+    }
+    elements.mainHeader.style.display = 'flex';
+    elements.gameView.style.display = 'grid';
+    elements.scenarioContainer.style.display = 'flex';
+    elements.navGame.classList.add('active');
+    elements.navAcademy.classList.remove('active');
   }
 }
 
-function handleModuleComplete(e) {
-  const btn = e.target;
-  const moduleName = btn.dataset.module;
-  const moduleCard = btn.closest('.academy-module');
+function updateLearningRoom() {
+  const module = academyModules[state.currentModuleIndex];
+  elements.moduleCard.innerHTML = `
+    <div class="category-tag">${module.tag}</div>
+    <h3>${module.title}</h3>
+    <div class="module-content">${module.content}</div>
+  `;
+  
+  const total = academyModules.length;
+  const progress = ((state.currentModuleIndex) / total) * 100;
+  elements.academyProgress.style.width = `${progress}%`;
+  elements.stepIndicator.textContent = `Teaching ${state.currentModuleIndex + 1} of ${total}`;
 
-  if (!state.completedModules.includes(moduleName)) {
-    state.completedModules.push(moduleName);
-    btn.textContent = 'Completed ✓';
-    btn.classList.add('completed');
-    moduleCard.classList.add('completed');
+  if (state.currentModuleIndex === total - 1) {
+    elements.btnUnderstood.textContent = 'I have Mastered the Basics';
+  }
+}
+
+function handleNextTeaching() {
+  if (state.currentModuleIndex < academyModules.length - 1) {
+    state.currentModuleIndex++;
+    updateLearningRoom();
   } else {
-    state.completedModules = state.completedModules.filter(m => m !== moduleName);
-    btn.textContent = 'Mark as Completed';
-    btn.classList.remove('completed');
-    moduleCard.classList.remove('completed');
-  }
-
-  updateAcademyProgress();
-}
-
-function updateAcademyProgress() {
-  const total = 4;
-  const current = state.completedModules.length;
-  const percentage = (current / total) * 100;
-
-  elements.academyProgress.style.width = `${percentage}%`;
-  elements.academyStatus.textContent = `${current} / ${total} Modules Completed`;
-
-  if (current === total) {
+    // Learning over
     state.gameUnlocked = true;
+    elements.academyProgress.style.width = '100%';
+    elements.btnUnderstood.style.display = 'none';
+    elements.btnStartChallenge.style.display = 'flex';
     elements.navGame.classList.remove('disabled');
     elements.navGame.title = 'Challenge Unlocked!';
-    elements.academyStatus.innerHTML = '<span style="color: var(--success); font-weight: bold;">✓ Academy Completed! Challenge Unlocked.</span>';
-  } else {
-    state.gameUnlocked = false;
-    elements.navGame.classList.add('disabled');
-    elements.navGame.title = 'Complete the Academy to unlock the Challenge';
   }
 }
 
@@ -340,8 +375,10 @@ elements.btnTrust.addEventListener('click', () => handleDecision(false));
 elements.btnNext.addEventListener('click', nextScenario);
 elements.navGame.addEventListener('click', () => switchView('game'));
 elements.navAcademy.addEventListener('click', () => switchView('academy'));
-elements.moduleButtons.forEach(btn => btn.addEventListener('click', handleModuleComplete));
+elements.btnEnterRoom.addEventListener('click', () => switchView('academy'));
+elements.btnUnderstood.addEventListener('click', handleNextTeaching);
+elements.btnStartChallenge.addEventListener('click', () => switchView('game'));
 
 // Initialize
+switchView('landing');
 updateUI();
-updateAcademyProgress();

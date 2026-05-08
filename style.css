@@ -52,10 +52,94 @@ body {
 .blob-1 { top: -100px; right: -100px; }
 .blob-2 { bottom: -100px; left: -100px; background: var(--accent); }
 
-#app {
-  display: flex;
-  flex-direction: column;
+/* Landing Page Styles */
+.hero-section {
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 4rem;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2rem;
+  }
+  .hero-visual { order: -1; }
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, #fff, var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  margin-bottom: 3.5rem;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.btn-primary-large {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: white;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary-large:hover {
+  transform: translateY(-4px);
+  background: var(--primary-hover);
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+}
+
+.floating-img {
+  width: 100%;
+  max-width: 600px;
+  filter: drop-shadow(0 0 50px rgba(99, 102, 241, 0.2));
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+.glitch-text {
+  position: relative;
+  color: var(--primary);
 }
 
 /* Glassmorphism utility */
@@ -451,6 +535,19 @@ button {
   background: linear-gradient(to right, var(--text-main), var(--primary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.learning-room-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.step-indicator {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .academy-progress-container {
