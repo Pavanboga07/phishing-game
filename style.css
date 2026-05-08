@@ -254,6 +254,10 @@ body {
 
 .feature-card .icon {
   font-size: 2rem;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
 .stat-desc {
   font-size: 0.75rem;
   text-transform: uppercase;
