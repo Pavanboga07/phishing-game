@@ -131,8 +131,8 @@
         </aside>
       </main>
 
-      <section id="academy-view" style="display: none; padding: 4rem 2rem; max-width: 800px; margin: 0 auto; width: 100%;">
-        <div class="learning-room-header">
+      <section id="academy-view" style="display: none; padding: var(--card-padding) 2rem; max-width: 1000px; margin: 0 auto; width: 100%;">
+        <div class="learning-room-header" style="text-align: left;">
           <span class="step-indicator" id="step-indicator">Step 1 of 4</span>
           <h2 id="learning-title">Phishing Academy</h2>
           <div class="academy-progress-container" style="max-width: 100%;">
@@ -151,26 +151,42 @@
           <button class="btn-primary-large" id="btn-understood" style="width: 100%; justify-content: center;">
             I Understood, Next Teaching
           </button>
-          <button class="btn-trust" id="btn-start-challenge" style="display: none; width: 100%; justify-content: center;">
+          <button class="btn-primary-large" id="btn-start-challenge" style="display: none; width: 100%; justify-content: center; background: var(--success); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
             Start the Cyber Defense Challenge
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           </button>
         </div>
-      </section>
 
         <div class="academy-resources">
-          <h2>External Resources</h2>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
-            <a href="https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks" class="glass card resource-link" target="_blank">
-              <strong>CISA Guide</strong>
-              <span>Official government best practices.</span>
+          <h2>Cyber Defense Resources</h2>
+          <div class="resource-grid">
+            <a href="https://cybercrime.gov.in" target="_blank" class="glass resource-card">
+              <div class="resource-icon">🇮🇳</div>
+              <div class="resource-info">
+                <strong>National Cyber Crime Portal</strong>
+                <span>Official Indian portal for reporting and safety tips.</span>
+              </div>
             </a>
-            <a href="https://consumer.ftc.gov/articles/how-recognize-and-avoid-phishing-scams" class="glass card resource-link" target="_blank">
-              <strong>FTC Scam Alerts</strong>
-              <span>Latest phishing trends and reports.</span>
+            <a href="https://www.cert-in.org.in" target="_blank" class="glass resource-card">
+              <div class="resource-icon">🛡️</div>
+              <div class="resource-info">
+                <strong>CERT-In Advisories</strong>
+                <span>National nodal agency for cyber security incidents.</span>
+              </div>
             </a>
-            <a href="https://www.knowbe4.com/phishing" class="glass card resource-link" target="_blank">
-              <strong>KnowBe4 Training</strong>
-              <span>Comprehensive security awareness modules.</span>
+            <a href="https://infosecawareness.in" target="_blank" class="glass resource-card">
+              <div class="resource-icon">💡</div>
+              <div class="resource-info">
+                <strong>ISEA Project (MeitY)</strong>
+                <span>Information Security Awareness guides by Govt. of India.</span>
+              </div>
+            </a>
+            <a href="https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks" target="_blank" class="glass resource-card">
+              <div class="resource-icon">🌐</div>
+              <div class="resource-info">
+                <strong>CISA Global Guide</strong>
+                <span>International best practices for phishing detection.</span>
+              </div>
             </a>
           </div>
         </div>
