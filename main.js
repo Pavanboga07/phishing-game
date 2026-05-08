@@ -1,85 +1,197 @@
 import './style.css';
 
-// Game Scenarios
+// Game Scenarios - Expanded Library
 const scenarios = [
   {
     id: 1,
-    platform: 'email',
-    difficulty: 'easy',
-    subject: "Urgent: Unusual Login Activity Detected",
-    sender: "Nexus IT Support <support@nexus-security-alert.net>",
+    platform: 'Email',
+    sender: 'security@microsoft-verify.com',
+    subject: 'Action Required: Unusual Sign-in Activity',
     body: `
-      <p>Hello Employee,</p>
-      <p>We detected an unusual login to your Nexus account from an unrecognized device in Eastern Europe.</p>
-      <p>If this was not you, please click the button below to secure your account immediately.</p>
-      <div style="margin: 20px 0; text-align: center;">
-        <a href="#" class="simulated-link" data-url="http://nexus-verify-identity.com/login" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">Verify My Identity</a>
+      <p>Dear User,</p>
+      <p>We detected an unusual sign-in attempt from a new location (Moscow, RU). If this was not you, please verify your account immediately to prevent unauthorized access.</p>
+      <div class="email-cta" style="margin: 20px 0; text-align: center;">
+        <a href="#" class="simulated-link" data-url="https://microsoft-login.secure-verify.net/reset-auth" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">Verify My Account Now</a>
       </div>
-      <p>Thank you,<br>Nexus Security Team</p>
+      <p>Failure to verify within 24 hours will result in permanent account suspension.</p>
     `,
     isPhishing: true,
-    explanation: "This was a classic credential harvesting attack. The domain '@nexus-security-alert.net' is a common lookalike tactic.",
-    redFlags: ["Mismatched domain", "Urgent tone", "Generic greeting"]
+    difficulty: 'Easy',
+    explanation: 'The sender domain "microsoft-verify.com" is not an official Microsoft domain. Official emails come from @microsoft.com.',
+    redFlags: ['Urgent tone', 'Suspicious domain name', 'Threat of account suspension']
   },
   {
     id: 2,
-    platform: 'sms',
-    difficulty: 'medium',
-    subject: "SMS from [NexusHR]",
-    sender: "+1 (888) 555-0199",
+    platform: 'SMS',
+    sender: '+91 98210 54122',
+    subject: 'Urgent: Bank Alert',
     body: `
       <div class="sms-bubble">
-        [NEXUS-CORP] Your one-time verification code is 88291. If you did not request this, please secure your account at: https://nexus-corp.auth-secure.com
+        [HDFC] Your account has been temporarily blocked due to KYC non-compliance. Click here to update now: <a href="#" class="simulated-link" data-url="https://hdfc.net-kyc.in/portal">hdfc.net-kyc.in/portal</a>
       </div>
     `,
     isPhishing: true,
-    explanation: "Smishing often uses verification code lures. The URL 'nexus-corp.auth-secure.com' is a subdomain on a malicious domain 'auth-secure.com'.",
-    redFlags: ["Suspicious URL structure", "Unsolicited 2FA code"]
+    difficulty: 'Medium',
+    explanation: 'Banks never send KYC update links via SMS. Official domains would end in .com or .in, but the full domain hdfc.net-kyc.in is a lookalike.',
+    redFlags: ['Suspicious sender number', 'Lookalike domain', 'Artificial urgency']
   },
   {
     id: 3,
-    platform: 'social',
-    difficulty: 'hard',
-    subject: "LinkedIn Message: Recruiter Contact",
-    sender: "Sarah Jenkins (Senior Talent Lead)",
+    platform: 'Social',
+    sender: 'LinkedIn Security',
+    subject: 'New Message from Recruiter',
     body: `
-      <p>Hi there! I saw your profile and I'm very impressed with your work at Nexus Corp.</p>
-      <p>We're looking for someone with your exact skillset for a confidential project at a major competitor. The salary range is significantly higher than market average.</p>
-      <p>You can view the full job description and benefits package here: <a href="#" class="simulated-link" data-url="https://dropbox-shared-files.net/s/job_desc_2026.zip">job_description_nexus_hire.zip</a></p>
+      <div class="social-post">
+        <p>Hi there! I saw your profile and we have a high-paying role at Nexus. Please check the job description here:</p>
+        <div class="social-attachment">
+          📄 <a href="#" class="simulated-link" data-url="https://linkedin-jobs.files-share.com/JD_Nexus_2026.pdf.exe">JD_Nexus_2026.pdf</a>
+        </div>
+      </div>
     `,
     isPhishing: true,
-    explanation: "This is spear phishing targeting professional curiosity. The '.zip' file on a lookalike 'dropbox-shared-files.net' domain likely contains malware.",
-    redFlags: ["Unsolicited high-value offer", "Suspicious file attachment (.zip)", "Lookalike file sharing domain"]
+    difficulty: 'Medium',
+    explanation: 'The attachment ends in .exe, which is an executable file, not a PDF. Attackers hide malware in fake documents.',
+    redFlags: ['Double file extension (.pdf.exe)', 'Suspicious file sharing domain']
   },
   {
     id: 4,
-    platform: 'email',
-    difficulty: 'medium',
-    subject: "IT Security Policy Update - Required Signature",
-    sender: "Global Compliance <compliance@nexus-corp.com>",
+    platform: 'Email',
+    sender: 'it-support@nexus-corp.com',
+    subject: 'Scheduled Password Rotation',
     body: `
-      <p>Dear Employee,</p>
-      <p>As part of our annual security audit, all employees are required to review and sign the updated Remote Work Policy by end of week.</p>
-      <p>Please review the document on the internal SharePoint: <a href="#" class="simulated-link" data-url="https://nexuscorp.sharepoint.com/sites/compliance/policy2026">Nexus Policy 2026</a></p>
-      <p>Thank you for your cooperation.</p>
+      <p>Team,</p>
+      <p>As per our quarterly security policy, please rotate your domain password by EOD. Use the internal portal only.</p>
+      <div class="email-cta">
+        <a href="#" class="simulated-link" data-url="https://portal.nexus-corp.com/security/reset">Access Internal Portal</a>
+      </div>
     `,
     isPhishing: false,
-    explanation: "This is a legitimate internal communication. It uses the correct internal SharePoint domain and official sender address.",
+    difficulty: 'Easy',
+    explanation: 'This is a legitimate internal communication. The sender domain matches the company, and the URL is the official internal portal.',
     redFlags: []
   },
   {
     id: 5,
-    platform: 'email',
-    difficulty: 'hard',
-    subject: "Fwd: Q4 Budget Review - Action Needed",
-    sender: "David Chen <david.chen@nexus-corp.com>",
+    platform: 'WhatsApp',
+    sender: 'Family (Mom)',
+    subject: 'New Phone Number',
     body: `
-      <p>Hey, I'm stuck in a meeting but I need you to double check these numbers for the Q4 review before the board meeting at 3 PM.</p>
-      <p>The spreadsheet is here: <a href="#" class="simulated-link" data-url="https://docs.google.com/spreadsheets/d/1vA.../edit">Q4_Budget_Draft_v2</a></p>
-      <p>Thanks!</p>
+      <div class="sms-bubble">
+        Hi beta, my old phone broke. This is my new number. Can you please pay this small bill for me? I'll return it tomorrow. <a href="#" class="simulated-link" data-url="https://pay-nexus.in/quick-transfer">pay-nexus.in/quick-transfer</a>
+      </div>
+    `,
+    isPhishing: true,
+    difficulty: 'Hard',
+    explanation: 'This is "Family Impersonation" or "Hi Mum" scam. Attackers pose as loved ones in distress to bypass your guard.',
+    redFlags: ['Unexpected request for money', 'New/unknown number', 'Sense of urgency']
+  },
+  {
+    id: 6,
+    platform: 'Email',
+    sender: 'accounts@netflix-offers.com',
+    subject: 'Payment Declined: Update your Netflix Membership',
+    body: `
+      <p>We're having some trouble with your current billing information.</p>
+      <p>Please update your payment method to continue watching.</p>
+      <a href="#" class="simulated-link" data-url="https://netflix.update-billing.com/signin">Update Payment</a>
+    `,
+    isPhishing: true,
+    difficulty: 'Medium',
+    explanation: 'The domain "netflix-offers.com" is suspicious. Real Netflix emails come from @netflix.com.',
+    redFlags: ['Suspicious domain', 'Financial lure']
+  },
+  {
+    id: 7,
+    platform: 'LinkedIn',
+    sender: 'HR at Google',
+    subject: 'Interview Invitation',
+    body: `
+      <p>Congratulations! You have been shortlisted for an interview. Please join the secure meeting portal to begin:</p>
+      <a href="#" class="simulated-link" data-url="https://google.zoom-interview.com/j/992102">Join Meeting</a>
+    `,
+    isPhishing: true,
+    difficulty: 'Hard',
+    explanation: 'Lookalike domain: "google.zoom-interview.com". Attackers often use subdomains to hide the real malicious domain.',
+    redFlags: ['Subdomain trickery', 'High-value lure']
+  },
+  {
+    id: 8,
+    platform: 'Email',
+    sender: 'hr@nexus-corp.com',
+    subject: 'Annual Employee Survey 2026',
+    body: `
+      <p>Hello Team,</p>
+      <p>Please take 5 minutes to share your feedback on our workplace culture. Your responses are anonymous.</p>
+      <a href="#" class="simulated-link" data-url="https://surveys.nexus-corp.com/culture-2026">Take Survey</a>
     `,
     isPhishing: false,
-    explanation: "This is a legitimate 'high-pressure' scenario from a known colleague. The link leads to an official Google Docs domain commonly used in the company.",
+    difficulty: 'Medium',
+    explanation: 'Legitimate internal survey. The domain and URL structure align with corporate standards.',
+    redFlags: []
+  },
+  {
+    id: 9,
+    platform: 'QR Code',
+    sender: 'Parking Garage',
+    subject: 'Scan to Pay',
+    body: `
+      <div style="text-align: center;">
+        <p>Pay your parking fee by scanning the code below:</p>
+        <div style="width: 150px; height: 150px; background: #eee; margin: 1rem auto; display: flex; align-items: center; justify-content: center; border: 2px dashed #999;">
+          [QR CODE]
+        </div>
+        <a href="#" class="simulated-link" data-url="https://parking-pay.quick-scan.net/id=882">Scan Link Result</a>
+      </div>
+    `,
+    isPhishing: true,
+    difficulty: 'Hard',
+    explanation: '"Quishing" (QR Phishing). Attackers paste fake QR codes over real ones to steal payment info.',
+    redFlags: ['Generic payment domain', 'Unverified physical QR placement']
+  },
+  {
+    id: 10,
+    platform: 'Email',
+    sender: 'billing@apple.com',
+    subject: 'Receipt for your recent purchase',
+    body: `
+      <p>Your subscription for iCloud+ has been renewed.</p>
+      <p>Amount: ₹75.00</p>
+      <p>If you did not authorize this, view the full receipt here: <a href="#" class="simulated-link" data-url="https://www.apple.com/account/purchases">View Receipt</a></p>
+    `,
+    isPhishing: false,
+    difficulty: 'Easy',
+    explanation: 'Official Apple receipt format. Link leads to the legitimate Apple account page.',
+    redFlags: []
+  },
+  {
+    id: 11,
+    platform: 'Slack',
+    sender: 'System Admin',
+    subject: 'Security Token Update',
+    body: `
+      <div class="social-post">
+        <p>⚠️ Your Slack auth token will expire in 10 minutes. Click below to refresh and prevent logout.</p>
+        <a href="#" class="simulated-link" data-url="https://slack-security.app-auth.io/refresh">Refresh Token</a>
+      </div>
+    `,
+    isPhishing: true,
+    difficulty: 'Hard',
+    explanation: 'Collaboration tool phishing. Attackers use Slack or Teams to target employees with high urgency.',
+    redFlags: ['Extreme urgency', 'Third-party auth domain']
+  },
+  {
+    id: 12,
+    platform: 'Email',
+    sender: 'no-reply@amazon.in',
+    subject: 'Your order #882-1029-551 has been shipped',
+    body: `
+      <p>Hi customer,</p>
+      <p>Your package is on its way. Track your delivery status here:</p>
+      <a href="#" class="simulated-link" data-url="https://www.amazon.in/gp/your-account/order-history">Track Package</a>
+    `,
+    isPhishing: false,
+    difficulty: 'Easy',
+    explanation: 'Legitimate order confirmation. The URL points to the official Amazon order history page.',
     redFlags: []
   }
 ];
@@ -120,6 +232,18 @@ const academyModules = [
     tag: 'Prevention',
     title: 'How to Protect Yourself',
     content: '<ul class="learning-list"><li>✅ <strong>Enable MFA:</strong> Use Multi-Factor Auth.</li><li>✅ <strong>Verify the Source:</strong> Contact via official sites.</li><li>✅ <strong>Hover Before You Click:</strong> Check real URLs.</li></ul>'
+  },
+  {
+    id: 'mfa',
+    tag: 'Advanced',
+    title: 'The MFA Shield',
+    content: '<p>Multi-Factor Authentication (MFA) is your last line of defense. Even if an attacker steals your password, they cannot access your account without your secondary device.</p><div class="learning-tip">🚨 Never share your OTP with anyone, including bank officials.</div>'
+  },
+  {
+    id: 'social-eng',
+    tag: 'Psychology',
+    title: 'Social Engineering',
+    content: '<p>Attackers dont just hack systems; they hack people. They use emotions like fear, curiosity, or greed to manipulate you into making mistakes.</p><ul class="learning-list"><li>🎭 <strong>Authority:</strong> Posing as your boss or CEO.</li><li>🎁 <strong>Greed:</strong> Fake lottery or high-paying job offers.</li></ul>'
   }
 ];
 
@@ -252,7 +376,6 @@ function awardBadge(badgeKey) {
     state.badges.push(badgeKey);
     const badge = BADGES[badgeKey];
     console.log(`Badge Awarded: ${badge.name}`);
-    // Optional: Show toast or alert
   }
 }
 
@@ -326,6 +449,7 @@ function switchView(view) {
     elements.academyView.style.display = 'block';
     elements.navGame.classList.remove('active');
     elements.navAcademy.classList.add('active');
+    elements.navLanding.classList.remove('active');
     updateLearningRoom();
   } else if (view === 'game') {
     if (!state.gameUnlocked) {
@@ -337,6 +461,7 @@ function switchView(view) {
     elements.scenarioContainer.style.display = 'flex';
     elements.navGame.classList.add('active');
     elements.navAcademy.classList.remove('active');
+    elements.navLanding.classList.remove('active');
   }
 }
 
